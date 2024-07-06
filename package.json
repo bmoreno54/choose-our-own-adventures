@@ -1,0 +1,12 @@
+{
+  "name": "choose-our-own-adventures",
+  "version": "1.0.0",
+  "description": "**Choose-Our-Own-Adventures** is an innovative interactive storytelling platform where players collaboratively create and explore branching narratives, one sentence at a time. Rooted in an agent-centric design philosophy, this project aims to avoid predatory game design practices and instead focus on creating an enriching experience for holistic human agents.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,93 @@
+/* client/src/App.css */
+
+:root {
+  --primary-bg-color: #282c34;
+  --primary-text-color: white;
+  --button-bg-color: #61dafb;
+  --button-hover-color: #21a1f1;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: var(--primary-bg-color);
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: var(--primary-text-color);
+}
+
+.main-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-menu button {
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: var(--button-bg-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--primary-bg-color);
+  font-size: 16px;
+}
+
+.main-menu button:hover {
+  background-color: var(--button-hover-color);
+}
+
+form {
+  margin-top: 20px;
+  text-align: left;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: var(--primary-bg-color); /* Added */
+  padding: 20px; /* Added */
+  border-radius: 8px; /* Added */
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--primary-text-color);
+}
+
+input, textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: var(--primary-bg-color); /* Added */
+  color: var(--primary-text-color); /* Added */
+}
+
+button {
+  padding: 10px 20px;
+  background-color: var(--button-bg-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--primary-bg-color);
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: var(--button-hover-color);
+}
+
+.modal-content {
+  background-color: var(--primary-bg-color);
+  padding: 20px;
+  border-radius: 8px;
+  color: var(--primary-text-color);
+}
