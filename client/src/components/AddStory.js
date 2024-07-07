@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import Modal from 'react-modal';
+import SentenceInput from './SentenceInput'; // Import the SentenceInput component
 
-// Set the app element for accessibility
 Modal.setAppElement('#root');
 
 function AddStory({ onBack, onStoryCreated }) {
@@ -12,28 +12,16 @@ function AddStory({ onBack, onStoryCreated }) {
   const [author, setAuthor] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  console.log('AddStory Component State:', { title, content, author, modalIsOpen });
-
-  const openModal = () => {
-    console.log('openModal called');
-    setModalIsOpen(true);
-  };
-
-  const closeModal = () => {
-    console.log('closeModal called');
-    setModalIsOpen(false);
-  };
+  const openModal = () => setModalIsOpen(true);
+  const closeModal = () => setModalIsOpen(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('handleSubmit called');
     openModal();
   };
 
   const confirmSubmit = async () => {
-    console.log('confirmSubmit called');
     const newStory = { title, content, author };
-    console.log('Submitting story:', newStory);
 
     try {
       const response = await fetch('/api/stories', {
@@ -44,13 +32,12 @@ function AddStory({ onBack, onStoryCreated }) {
         body: JSON.stringify(newStory),
       });
       const data = await response.json();
-      console.log('Story added:', data);
       if (response.ok) {
         closeModal();
         setTitle('');
         setContent('');
         setAuthor('');
-        onStoryCreated(data._id); // Navigate to StoryInteraction with the newly created story
+        onStoryCreated(data._id);
       } else {
         console.error('Error adding story:', data);
       }
@@ -59,8 +46,6 @@ function AddStory({ onBack, onStoryCreated }) {
       closeModal();
     }
   };
-
-  console.log('Rendering AddStory Component');
 
   return (
     <div className="add-story-container">
@@ -78,12 +63,7 @@ function AddStory({ onBack, onStoryCreated }) {
         </div>
         <div>
           <label htmlFor="content">Content:</label>
-          <textarea
-            id="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            required
-          ></textarea>
+          <SentenceInput value={content} onChange={setContent} />
         </div>
         <div>
           <label htmlFor="author">Author:</label>
@@ -130,17 +110,18 @@ export default AddStory;
  * ACS - AddStory.js
  *
  * This component allows users to add a new story by filling out a form.
- * Before the story is added, a confirmation modal is shown to confirm the details.
+ * It includes input validation to ensure that the content ends with terminal punctuation.
+ * Ghost text hints are provided to guide the user.
  *
  * Props:
- * - onBack: A function to navigate back to the main menu.
- * - onStoryCreated: A function to handle navigation to StoryInteraction after creating a story.
+ * - onBack: Function to navigate back to the main menu.
+ * - onStoryCreated: Function to handle navigation to StoryInteraction after creating a story.
  *
  * State:
  * - title: The title of the story.
  * - content: The content of the story.
  * - author: The author of the story.
- * - modalIsOpen: A boolean state to control the visibility of the confirmation modal.
+ * - modalIsOpen: Boolean state to control the visibility of the confirmation modal.
  *
  * Handlers:
  * - handleSubmit: Handles form submission and opens the confirmation modal.

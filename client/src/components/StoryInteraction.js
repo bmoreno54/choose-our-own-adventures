@@ -1,6 +1,7 @@
 // client/src/components/StoryInteraction.js
 
 import React, { useEffect, useState } from 'react';
+import SentenceInput from './SentenceInput'; // Import the SentenceInput component
 
 function StoryInteraction({ storyId, onBack }) {
   const [story, setStory] = useState(null);
@@ -41,11 +42,7 @@ function StoryInteraction({ storyId, onBack }) {
     <div className="story-interaction-container">
       <h2>{story?.title}</h2>
       <p>{story?.content}</p>
-      <textarea
-        value={newContent}
-        onChange={(e) => setNewContent(e.target.value)}
-        placeholder="Add your content here..."
-      ></textarea>
+      <SentenceInput value={newContent} onChange={setNewContent} />
       <button onClick={handleUpdate}>Submit</button>
       <button onClick={onBack}>Back to Main Menu</button>
     </div>
@@ -58,6 +55,7 @@ export default StoryInteraction;
  * ACS - StoryInteraction.js
  *
  * This component handles the main interaction loop for a story, including displaying the story content, appending new content, and navigating back to the main menu.
+ * Ghost text hints are provided to guide the user.
  *
  * Props:
  * - storyId: The ID of the story to interact with.

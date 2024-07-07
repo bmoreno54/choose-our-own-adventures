@@ -1,0 +1,52 @@
+.sentence-input-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 40px; /* Space for ghost text */
+  background: transparent;
+  color: inherit;
+  position: relative;
+  z-index: 2;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: none;
+}
+
+textarea::placeholder {
+  color: #aaa;
+}
+
+.ghost-text-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  color: #aaa;
+  z-index: 1;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  white-space: pre-wrap;
+}
+
+.input-text {
+  visibility: hidden;
+}
+
+.ghost-text {
+  color: #aaa;
+}
+
+.validation-text {
+  color: red;
+  font-size: 0.9em;
+}
