@@ -1,0 +1,66 @@
+.main-menu {
+  text-align: center;
+  padding: 20px;
+  position: relative;
+}
+
+.main-menu h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.main-menu button {
+  display: block;
+  width: 150px;
+  margin: 10px auto;
+  padding: 10px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.main-menu button[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.tooltip {
+  position: absolute;
+  background-color: black;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  white-space: nowrap;
+  transform: translate(-50%, -100%);
+  transition: opacity 0.2s;
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0;
+}
+
+.tooltip.visible {
+  opacity: 1;
+}
+
+/**
+ * ACS - MainMenu.css
+ *
+ * This file contains the styling for the MainMenu component.
+ * It also includes styles for the custom tooltip that appears when buttons are hovered over.
+ * 
+ * Styles:
+ * - .main-menu: Styles the main container of the menu.
+ * - .main-menu h2: Styles the main title of the menu.
+ * - .main-menu button: Styles the buttons in the menu.
+ * - .main-menu button[disabled]: Styles disabled buttons.
+ * - .tooltip: Styles the tooltip.
+ * - .tooltip.visible: Styles for making the tooltip visible.
+ * 
+ * File Relationships:
+ * - This file is linked to MainMenu.js for component logic.
+ * 
+ * ACS Enrichment Reminder:
+ * - Ensure systematic enrichment of ACS during each file update.
+ * - Note: Review this file for modularity and refactoring needs.
+ * - Check MainMenu.js for related functionality and ensure visual consistency.
+ */

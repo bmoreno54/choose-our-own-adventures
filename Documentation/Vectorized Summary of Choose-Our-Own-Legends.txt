@@ -1,0 +1,45 @@
+# Summary of Choose-Our-Own-Legends
+## Title: Choose-Our-Own-Legends: An Interactive Adventure Anthology
+
+### Overview:
+Choose-Our-Own-Legends is an innovative platform within the Weird City Sagas universe that allows players to embark on personalized storytelling journeys. This interactive anthology empowers players to shape unique adventures through their decisions, creating a rich, branching narrative environment.
+
+### Core Concepts:
+
+**Dynamic Storytelling:**
+- Players contribute one sentence at a time to continue the story, ensuring a collaborative and ever-evolving narrative.
+
+**Diverse Scenarios:**
+- Each adventure spans various genres and settings, from medieval fantasy to cosmic horror, fostering a multifaceted universe.
+  
+**Player Contribution:**
+- Players can add their own sentences or select from previous contributions, engaging in both single-player (with AI support) and multiplayer modes.
+  
+**Community-Driven Content:**
+- The platform encourages community engagement, allowing users to contribute, vote, and follow storylines, and even add to the expanding anthology.
+
+### Key Features:
+
+**Branching Narratives:**
+- The stories are built on branching nexuses where every sentence can lead to multiple future paths.
+  
+**Interactive Interfaces:**
+- A dynamic user interface adapts to different interaction modes (reading, choosing, writing) to provide a seamless experience.
+  
+**Sidebar Modules:**
+- Each sentence features its own sidebar for comments, emojis, and special notes, allowing rich contextual interaction without disturbing the narrative flow.
+  
+**Real-Time and Asynchronous Interaction:**
+- Real-time updates and asynchronous contributions ensure an engaging and flexible storytelling experience.
+  
+**In-Game AI Agent:**
+- A small language model (LLM) agent supports single-player mode, simulating interactions and assisting in story-building.
+  
+**Adaptive Commenting System (ACS):**
+- Integrated ACS provides robust contextual feedback and documentation for all contributions, fostering a rich collaborative environment.
+
+### Narrative Goals:
+Choose-Our-Own-Legends aims to create a rich, engaging tapestry of interactive narratives driven by player choices. It emphasizes exploration, creativity, and continuous community-built expansions, ensuring that each player's journey is a unique part of the larger Weird City Sagas multiverse.
+
+### Conclusion:
+Choose-Our-Own-Legends offers an immersive platform where player agency, community-driven content, and dynamic storytelling converge. This evolving anthology welcomes players to explore, create, and share in the collective experience, making each adventure a part of the grand tapestry of the Weird City Sagas.

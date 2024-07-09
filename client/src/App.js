@@ -1,10 +1,9 @@
-// client/src/App.js
-
 import React, { useEffect, useState } from 'react';
 import AddStory from './components/AddStory';
 import BrowseStories from './components/BrowseStories';
 import ContinueStory from './components/ContinueStory';
 import StoryInteraction from './components/StoryInteraction';
+import MainMenu from './components/MainMenu';
 import './App.css';
 
 function App() {
@@ -26,16 +25,8 @@ function App() {
       .catch(error => console.error('Error fetching message:', error));
   }, []);
 
-  const handleStartStory = () => {
-    setCurrentAction('start');
-  };
-
-  const handleBrowseStories = () => {
-    setCurrentAction('browse');
-  };
-
-  const handleContinueStory = () => {
-    setCurrentAction('continue');
+  const handleActionSelected = (action) => {
+    setCurrentAction(action);
   };
 
   const handleStoryInteraction = (id) => {
@@ -54,13 +45,7 @@ function App() {
       case 'interact':
         return <StoryInteraction storyId={storyId} onBack={() => setCurrentAction(null)} />;
       default:
-        return (
-          <div className="main-menu">
-            <button onClick={handleStartStory}>Start a Story</button>
-            <button onClick={handleBrowseStories}>Browse Stories</button>
-            <button onClick={handleContinueStory}>Continue a Story</button>
-          </div>
-        );
+        return <MainMenu onActionSelected={handleActionSelected} />;
     }
   };
 
@@ -69,7 +54,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>{message}</p> {/* Display the message from the backend */}
+        <small>{message}</small> {/* Display the message from the backend */}
       </header>
       <main>
         {renderContent()}
@@ -92,6 +77,7 @@ export default App;
  * - BrowseStories: The component for browsing existing stories.
  * - ContinueStory: The component for continuing an existing story.
  * - StoryInteraction: The unified component for interacting with a story.
+ * - MainMenu: The main menu component.
  * - './App.css': The CSS file for styling the component.
  *
  * State:
@@ -103,9 +89,7 @@ export default App;
  * - Fetches a message from the /api endpoint and sets the message state.
  *
  * Handlers:
- * - handleStartStory: Sets the current action to 'start'.
- * - handleBrowseStories: Sets the current action to 'browse'.
- * - handleContinueStory: Sets the current action to 'continue'.
+ * - handleActionSelected: Sets the current action based on the selected menu option.
  * - handleStoryInteraction: Sets the current action to 'interact' with the provided story ID.
  *
  * Debugging:
@@ -117,4 +101,5 @@ export default App;
  * ACS Enrichment Reminder:
  * - Ensure systematic enrichment of ACS during each file update.
  * - Check if the file needs modularization or refactoring.
+ * - Ensure all related files are adequately documented and linked.
  */
