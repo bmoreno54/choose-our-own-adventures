@@ -20,8 +20,12 @@
   position: absolute;
   top: 0;
   left: 0;
-  opacity: 0;
+  opacity: 0.99; /* Adjust opacity to make textarea functional and ensure cursor visibility */
   z-index: 1;
+  caret-color: inherit; /* Use caret color from styles */
+  caret-width: inherit; /* Use caret width from styles */
+  background-color: inherit; /* Use background color from styles */
+  color: inherit; /* Use text color from styles */
 }
 
 .visible-textarea {
@@ -31,11 +35,11 @@
   min-height: 34px; /* Match the height of the textarea */
   display: flex;
   align-items: center;
-  white-space: pre-wrap;
+  white-space: pre-wrap; /* Preserve line breaks and white spaces */
 }
 
 .input-text {
-  color: inherit;
+  color: inherit; /* Use text color from styles */
 }
 
 .ghost-text {

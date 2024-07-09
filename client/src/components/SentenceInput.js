@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useRef, forwardRef } from 'react';
+import React, { useState, useEffect, useRef, forwardRef, useContext } from 'react';
 import { isValidSentence } from '../utils/validation';
 import { getGhostText } from '../utils/ghostText';
+import { SettingsContext } from '../contexts/SettingsContext';
 import './SentenceInput.css';
 
 const SentenceInput = forwardRef(({ value, onChange, onSubmit }, ref) => {
   const [input, setInput] = useState(value);
   const inputRef = useRef(null);
+  const { settings } = useContext(SettingsContext);
 
   useEffect(() => {
     setInput(value);
@@ -34,8 +36,11 @@ const SentenceInput = forwardRef(({ value, onChange, onSubmit }, ref) => {
     console.log('Key down:', e.key);
     if (e.key === 'Enter') {
       e.preventDefault();
-      if (isValidSentence(input)) {
-        onSubmit();
+      if (input.length === 0 || input === '\n') {
+        setInput(input + '\n');
+      } else if (isValidSentence(input)) {
+        onSubmit(input);  // pass the input to onSubmit
+        setInput('');  // clear the input after submission
         console.log('Enter pressed, valid sentence:', input);
       }
     }
@@ -55,9 +60,15 @@ const SentenceInput = forwardRef(({ value, onChange, onSubmit }, ref) => {
             onKeyDown={handleKeyDown}
             placeholder="Start typing your story..."
             className="hidden-textarea"
+            style={{
+              caretColor: settings.cursorColor,
+              caretWidth: '2px',
+              backgroundColor: settings.backgroundColor,
+              color: settings.textColor
+            }} // Apply user-configured styles
           ></textarea>
           <div className="visible-textarea">
-            <span className="input-text">{input}</span>
+            <span className="input-text" style={{ color: settings.textColor }}>{input}</span>
             <span className="ghost-text">{ghostText}</span>
           </div>
         </div>
@@ -67,6 +78,8 @@ const SentenceInput = forwardRef(({ value, onChange, onSubmit }, ref) => {
 });
 
 export default SentenceInput;
+
+
 
 /**
  * ACS - SentenceInput.js
@@ -83,7 +96,7 @@ export default SentenceInput;
  *
  * Handlers:
  * - handleInputChange: Updates the input state and calls the onChange function.
- * - handleKeyDown: Handles Enter key press to submit input if valid.
+ * - handleKeyDown: Handles Enter key press to submit input if valid or add line break if input is empty or equals '\n'.
  * - useEffect: Updates the input state when the parent component's value changes.
  * - useEffect: Focuses the input when the ref is set.
  *

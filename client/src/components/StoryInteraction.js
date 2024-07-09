@@ -1,11 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react';
-import SentenceInput from './SentenceInput'; // Import the SentenceInput component
-import { deleteStory } from '../utils/storyActions'; // Import the deleteStory utility function
-import { isValidSentence } from '../utils/validation'; // Import the validation function
+import SentenceInput from './SentenceInput';
+import StoryDisplay from './StoryDisplay';
+import HamburgerMenu from './HamburgerMenu';
+import Modal from './Modal';
+import SettingsComponent from './SettingsComponent';
+import { deleteStory } from '../utils/storyActions';
+import { isValidSentence } from '../utils/validation';
 
 function StoryInteraction({ storyId, onBack }) {
   const [story, setStory] = useState(null);
   const [newContent, setNewContent] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -26,13 +31,22 @@ function StoryInteraction({ storyId, onBack }) {
     }
   }, []);
 
-  const handleUpdate = async () => {
-    if (!story || !isValidSentence(newContent)) return;
+  const handleUpdate = async (content) => {
+    if (!story || !isValidSentence(content)) return;
 
-    console.log('Updating story with new content:', newContent);
+    console.log('Updating story with new content:', content);
 
     try {
-      const updatedStory = { ...story, content: story.content.trim() + '\n' + newContent.trim() };
+      let updatedContent = story.content.trim();
+      if (content.startsWith('\n')) {
+        // if content starts with a newline, add a new paragraph
+        updatedContent += '\n' + content.trim();
+      } else {
+        // else, append to the current paragraph
+        updatedContent += ' ' + content.trim();
+      }
+
+      const updatedStory = { ...story, content: updatedContent };
       const response = await fetch(`/api/stories/${storyId}`, {
         method: 'PUT',
         headers: {
@@ -58,11 +72,20 @@ function StoryInteraction({ storyId, onBack }) {
     }
   };
 
+  const menuItems = [
+    { label: 'Settings', onClick: () => setIsModalOpen(true) },
+    // add other menu items here
+  ];
+
   return (
     <div className="story-interaction-container">
       <h2>Story Interaction</h2>
-      <p>{story?.content}</p>
+      <HamburgerMenu items={menuItems} />
+      <StoryDisplay content={story?.content || ''} />
       <SentenceInput value={newContent} onChange={setNewContent} onSubmit={handleUpdate} ref={inputRef} />
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <SettingsComponent />
+      </Modal>
       <button onClick={onBack}>Back to Main Menu</button>
       <button onClick={handleDelete} className="delete-button">Delete Story</button>
     </div>
@@ -83,6 +106,7 @@ export default StoryInteraction;
  * State:
  * - story: The story object fetched from the backend.
  * - newContent: Holds the new content added by the user.
+ * - isModalOpen: Boolean to control the visibility of the settings modal.
  *
  * useEffect:
  * - Fetches the story by its ID from the /api/stories/:id endpoint and sets the story state.
@@ -91,13 +115,16 @@ export default StoryInteraction;
  * Handlers:
  * - handleUpdate: Appends new content to the story and sends a PUT request to update the story.
  * - handleDelete: Calls the deleteStory utility function and navigates back to the main menu after deletion.
+ * - setIsModalOpen: Toggles the visibility of the settings modal.
  *
  * Debugging:
  * - Console logs to track the fetched story, update, and delete operations.
  *
  * Rendering:
- * - Renders the story content.
+ * - Renders the HamburgerMenu component for settings.
+ * - Renders the StoryDisplay component to show the story content.
  * - Renders a form to add new content to the story.
+ * - Renders the SettingsComponent inside a Modal for settings adjustments.
  * - Renders buttons to navigate back to the main menu and delete the story.
  *
  * ACS Enrichment Reminder:

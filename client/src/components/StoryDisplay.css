@@ -1,0 +1,7 @@
+.story-display {
+  white-space: pre-wrap; /* Preserve line breaks */
+}
+
+.story-paragraph {
+  margin-bottom: 1em; /* Add space between paragraphs */
+}
