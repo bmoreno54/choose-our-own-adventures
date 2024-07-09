@@ -23,7 +23,7 @@ function MainMenu({ onActionSelected }) {
   };
 
   const handleStartStory = () => {
-    onActionSelected('start');
+    onActionSelected('startDirect');
   };
 
   const handleBrowseStories = () => {

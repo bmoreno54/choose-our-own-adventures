@@ -1,5 +1,3 @@
-// utils/validation.js
-
 /**
  * ACS - validation.js
  *

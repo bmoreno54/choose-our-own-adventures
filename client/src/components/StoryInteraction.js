@@ -1,27 +1,37 @@
-// client/src/components/StoryInteraction.js
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import SentenceInput from './SentenceInput'; // Import the SentenceInput component
+import { isValidSentence } from '../utils/validation'; // Import the validation function
 
 function StoryInteraction({ storyId, onBack }) {
   const [story, setStory] = useState(null);
   const [newContent, setNewContent] = useState('');
+  const inputRef = useRef(null);
 
   useEffect(() => {
-    fetch(`/api/stories/${storyId}`)
-      .then(response => response.json())
-      .then(data => {
-        console.log('Story fetched:', data);
-        setStory(data);
-      })
-      .catch(error => console.error('Error fetching story:', error));
+    if (storyId) {
+      fetch(`/api/stories/${storyId}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log('Story fetched:', data);
+          setStory(data);
+        })
+        .catch(error => console.error('Error fetching story:', error));
+    }
   }, [storyId]);
 
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
   const handleUpdate = async () => {
-    if (!story) return;
+    if (!story || !isValidSentence(newContent)) return;
+
+    console.log('Updating story with new content:', newContent);
 
     try {
-      const updatedStory = { ...story, content: story.content + '\n' + newContent };
+      const updatedStory = { ...story, content: story.content.trim() + '\n' + newContent.trim() };
       const response = await fetch(`/api/stories/${storyId}`, {
         method: 'PUT',
         headers: {
@@ -40,10 +50,9 @@ function StoryInteraction({ storyId, onBack }) {
 
   return (
     <div className="story-interaction-container">
-      <h2>{story?.title}</h2>
+      <h2>Story Interaction</h2>
       <p>{story?.content}</p>
-      <SentenceInput value={newContent} onChange={setNewContent} />
-      <button onClick={handleUpdate}>Submit</button>
+      <SentenceInput value={newContent} onChange={setNewContent} onSubmit={handleUpdate} ref={inputRef} />
       <button onClick={onBack}>Back to Main Menu</button>
     </div>
   );
@@ -67,6 +76,7 @@ export default StoryInteraction;
  *
  * useEffect:
  * - Fetches the story by its ID from the /api/stories/:id endpoint and sets the story state.
+ * - Focuses the SentenceInput when the component is mounted.
  *
  * Handlers:
  * - handleUpdate: Appends new content to the story and sends a PUT request to update the story.
@@ -75,9 +85,9 @@ export default StoryInteraction;
  * - Console logs to track the fetched story and method calls.
  *
  * Rendering:
- * - Renders the story title and content.
+ * - Renders the story content.
  * - Renders a form to add new content to the story.
- * - Renders buttons to submit the new content and to navigate back to the main menu.
+ * - Renders a button to navigate back to the main menu.
  *
  * ACS Enrichment Reminder:
  * - Ensure systematic enrichment of ACS during each file update.

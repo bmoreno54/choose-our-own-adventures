@@ -1,6 +1,5 @@
-// client/src/components/ContinueStory.js
-
 import React, { useEffect, useState } from 'react';
+import './ContinueStory.css';
 
 function ContinueStory({ onSelectStory, onBack }) {
   const [stories, setStories] = useState([]);
@@ -18,12 +17,16 @@ function ContinueStory({ onSelectStory, onBack }) {
   return (
     <div className="continue-story-container">
       <h2>Continue a Story</h2>
-      <button onClick={onBack}>Back to Main Menu</button>
-      <ul>
+      <button onClick={onBack} className="back-button">Back to Main Menu</button>
+      <ul className="story-list">
         {stories.map(story => (
-          <li key={story._id}>
-            <h3>{story.title}</h3>
-            <button onClick={() => onSelectStory(story._id)}>Continue</button>
+          <li key={story._id} className="story-item">
+            <button 
+              className="story-link"
+              onClick={() => onSelectStory(story._id)}
+            >
+              {story.content.split('\n')[0]} {/* Display the first sentence */}
+            </button>
           </li>
         ))}
       </ul>

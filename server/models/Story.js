@@ -1,13 +1,7 @@
-// server/models/Story.js
-
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const storySchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true
-  },
   content: {
     type: String,
     required: true
@@ -32,7 +26,6 @@ module.exports = Story;
  * This file defines the Story model for the MongoDB database using Mongoose.
  *
  * Schema:
- * - title: The title of the story (String, required).
  * - content: The content of the story (String, required).
  * - author: The author of the story (String, required).
  * - createdAt: The date the story was created (Date, default: Date.now).

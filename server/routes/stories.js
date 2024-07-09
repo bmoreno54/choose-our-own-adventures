@@ -1,21 +1,22 @@
-// server/src/routes/stories.js
-
 const express = require('express');
 const Story = require('../models/Story');
 const router = express.Router();
 
+
 // Create a new story
-// ACS: This route handles the creation of a new story. It receives the story details in the request body, creates a new Story instance, saves it to the database, and returns the saved story.
 router.post('/', async (req, res) => {
   try {
     console.log('Received story data:', req.body);
-    const story = new Story(req.body);
+    const story = new Story({
+      content: req.body.content || '',
+      author: req.body.author || 'unnamed'
+    });
     await story.save();
+    console.log('Story created:', story);
     res.status(201).json(story);
   } catch (error) {
     console.error('Error creating story:', error);
     res.status(400).json({ error: error.message });
-    // ACS: Log any errors that occur during the story creation process.
   }
 });
 
@@ -94,27 +95,8 @@ module.exports = router;
  * - 'PUT /:id': Updates a story by its ID with the details provided in the request body.
  * - 'DELETE /:id': Deletes a story by its ID from the database.
  *
- * Debugging:
- * - Check the logs for messages indicating the success or failure of each operation.
- * - Ensure the Mongoose model is correctly defined and connected to the MongoDB database.
- */
-module.exports = router;
-
-/**
- * ACS - stories.js
- *
- * This file defines the routes for handling story-related operations. It includes routes for creating, retrieving, updating, and deleting stories.
- *
- * Imports:
- * - express: The core framework for building the server.
- * - Story: The Mongoose model for the story.
- *
- * Routes:
- * - 'POST /': Creates a new story and returns the saved story.
- * - 'GET /': Retrieves all stories from the database.
- * - 'GET /:id': Retrieves a story by its ID from the database.
- * - 'PUT /:id': Updates a story by its ID with the details provided in the request body.
- * - 'DELETE /:id': Deletes a story by its ID from the database.
+ * Middleware:
+ * - ensureAuthenticated: Middleware to ensure the user is authenticated before allowing access to certain routes.
  *
  * Debugging:
  * - Check the logs for messages indicating the success or failure of each operation.

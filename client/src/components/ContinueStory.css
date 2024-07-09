@@ -1,0 +1,42 @@
+.continue-story-container {
+  padding: 20px;
+}
+
+.continue-story-container h2 {
+  margin-bottom: 20px;
+}
+
+.back-button {
+  margin-bottom: 20px;
+}
+
+.story-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.story-item {
+  margin-bottom: 15px; /* Add space between story items */
+  display: flex;
+  justify-content: flex-start; /* Left-align the story link within the item */
+}
+
+.story-link {
+  background: none;
+  border: 1px solid #007bff;
+  color: #007bff;
+  padding: 10px 15px;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block; /* Change to inline-block for proper alignment */
+  width: auto; /* Adjust width as needed */
+  max-width: 600px; /* Set a max width */
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.story-link:hover {
+  background-color: #007bff;
+  color: white;
+}

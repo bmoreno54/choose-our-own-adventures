@@ -1,6 +1,5 @@
-// client/src/components/BrowseStories.js
-
 import React, { useEffect, useState } from 'react';
+import './BrowseStories.css';
 
 function BrowseStories({ onSelectStory, onBack }) {
   const [stories, setStories] = useState([]);
@@ -18,12 +17,16 @@ function BrowseStories({ onSelectStory, onBack }) {
   return (
     <div className="browse-stories-container">
       <h2>Browse Stories</h2>
-      <button onClick={onBack}>Back to Main Menu</button>
-      <ul>
+      <button onClick={onBack} className="back-button">Back to Main Menu</button>
+      <ul className="story-list">
         {stories.map(story => (
-          <li key={story._id}>
-            <h3>{story.title}</h3>
-            <button onClick={() => onSelectStory(story._id)}>Read</button>
+          <li key={story._id} className="story-item">
+            <button 
+              className="story-link"
+              onClick={() => onSelectStory(story._id)}
+            >
+              {story.content.split('\n')[0]} {/* Display the first sentence */}
+            </button>
           </li>
         ))}
       </ul>

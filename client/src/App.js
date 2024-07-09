@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import AddStory from './components/AddStory';
 import BrowseStories from './components/BrowseStories';
 import ContinueStory from './components/ContinueStory';
 import StoryInteraction from './components/StoryInteraction';
@@ -12,21 +11,35 @@ function App() {
   const [storyId, setStoryId] = useState(null);
 
   useEffect(() => {
-    console.log('useEffect called');
     fetch('/api')
-      .then(response => {
-        console.log('API response:', response);
-        return response.json();
-      })
-      .then(data => {
-        console.log('API data:', data);
-        setMessage(data.message);
-      })
+      .then(response => response.json())
+      .then(data => setMessage(data.message))
       .catch(error => console.error('Error fetching message:', error));
   }, []);
 
   const handleActionSelected = (action) => {
     setCurrentAction(action);
+    if (action === 'startDirect') {
+      createNewStory();
+    }
+  };
+
+  const createNewStory = async () => {
+    try {
+      const response = await fetch('/api/stories', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content: ' ', author: 'unnamed' }) // Create an empty story
+      });
+      const data = await response.json();
+      console.log('New story created:', data);
+      setStoryId(data._id);
+      setCurrentAction('interact');
+    } catch (error) {
+      console.error('Error creating story:', error);
+    }
   };
 
   const handleStoryInteraction = (id) => {
@@ -36,8 +49,8 @@ function App() {
 
   const renderContent = () => {
     switch (currentAction) {
-      case 'start':
-        return <AddStory onBack={() => setCurrentAction(null)} onStoryCreated={handleStoryInteraction} />;
+      case 'startDirect':
+        return <StoryInteraction storyId={storyId} onBack={() => setCurrentAction(null)} />;
       case 'browse':
         return <BrowseStories onSelectStory={handleStoryInteraction} onBack={() => setCurrentAction(null)} />;
       case 'continue':
@@ -48,8 +61,6 @@ function App() {
         return <MainMenu onActionSelected={handleActionSelected} />;
     }
   };
-
-  console.log('Rendering App Component');
 
   return (
     <div className="App">
@@ -73,7 +84,6 @@ export default App;
  * Imports:
  * - React: The core library for building React components.
  * - useEffect, useState: React hooks for managing side effects and state.
- * - AddStory: The component for adding new stories.
  * - BrowseStories: The component for browsing existing stories.
  * - ContinueStory: The component for continuing an existing story.
  * - StoryInteraction: The unified component for interacting with a story.
@@ -91,6 +101,7 @@ export default App;
  * Handlers:
  * - handleActionSelected: Sets the current action based on the selected menu option.
  * - handleStoryInteraction: Sets the current action to 'interact' with the provided story ID.
+ * - createNewStory: Creates a new story and sets the storyId state.
  *
  * Debugging:
  * - Console logs to track the component state and method calls.
