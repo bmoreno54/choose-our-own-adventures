@@ -2,7 +2,6 @@ const express = require('express');
 const Story = require('../models/Story');
 const router = express.Router();
 
-
 // Create a new story
 router.post('/', async (req, res) => {
   try {
@@ -21,19 +20,16 @@ router.post('/', async (req, res) => {
 });
 
 // Get all stories
-// ACS: This route retrieves all stories from the database and returns them in the response.
 router.get('/', async (req, res) => {
   try {
     const stories = await Story.find();
     res.json(stories);
   } catch (error) {
     res.status(500).json({ error: error.message });
-    // ACS: Log any errors that occur during the retrieval of all stories.
   }
 });
 
 // Get a story by ID
-// ACS: This route retrieves a story by its ID from the database and returns it in the response. If the story is not found, it returns a 404 error.
 router.get('/:id', async (req, res) => {
   try {
     const story = await Story.findById(req.params.id);
@@ -43,12 +39,10 @@ router.get('/:id', async (req, res) => {
     res.json(story);
   } catch (error) {
     res.status(500).json({ error: error.message });
-    // ACS: Log any errors that occur during the retrieval of the story by ID.
   }
 });
 
 // Update a story
-// ACS: This route updates a story by its ID with the details provided in the request body. It returns the updated story in the response. If the story is not found, it returns a 404 error.
 router.put('/:id', async (req, res) => {
   try {
     const story = await Story.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
@@ -58,26 +52,53 @@ router.put('/:id', async (req, res) => {
     res.json(story);
   } catch (error) {
     res.status(400).json({ error: error.message });
-    // ACS: Log any errors that occur during the update of the story.
   }
 });
 
 // Delete a story
-// ACS: This route deletes a story by its ID from the database. It returns a confirmation message in the response. If the story is not found, it returns a 404 error.
 router.delete('/:id', async (req, res) => {
   try {
-    const story = await Story.findByIdAndDelete(req.params.id);
+    const story = await Story.findById(req.params.id);
     if (!story) {
       return res.status(404).json({ error: 'Story not found' });
     }
-    res.json({ message: 'Story deleted' });
+
+    const user = req.body.user; // The user requesting the deletion
+    if (story.contributors.length > 1) {
+      // If there are multiple contributors, remove the user's authorship link
+      console.log(`Removing user ${user} from contributors: `, story.contributors);
+      story.contributors = story.contributors.filter(contributor => contributor !== user);
+      console.log(`Updated contributors: `, story.contributors);
+
+      const updatedStory = await Story.findByIdAndUpdate(
+        req.params.id,
+        { $set: { contributors: story.contributors } },
+        { new: true }
+      );
+      if (!updatedStory) {
+        throw new Error('Failed to update contributors');
+      }
+
+      console.log('Updated story from DB:', updatedStory);
+      res.json({ message: 'Authorship link removed', story: updatedStory });
+    } else {
+      // If the user is the sole contributor, delete the story
+      await story.deleteOne(); // Updated to use deleteOne instead of remove
+      res.json({ message: 'Story deleted' });
+    }
   } catch (error) {
+    console.error('Error deleting story:', error);
     res.status(500).json({ error: error.message });
-    // ACS: Log any errors that occur during the deletion of the story.
   }
 });
 
 module.exports = router;
+
+
+
+
+
+
 
 /**
  * ACS - stories.js
@@ -93,7 +114,7 @@ module.exports = router;
  * - 'GET /': Retrieves all stories from the database.
  * - 'GET /:id': Retrieves a story by its ID from the database.
  * - 'PUT /:id': Updates a story by its ID with the details provided in the request body.
- * - 'DELETE /:id': Deletes a story by its ID from the database.
+ * - 'DELETE /:id': Deletes a story by its ID from the database. If the story has multiple contributors, it removes the requesting user's authorship link instead of deleting the story.
  *
  * Middleware:
  * - ensureAuthenticated: Middleware to ensure the user is authenticated before allowing access to certain routes.

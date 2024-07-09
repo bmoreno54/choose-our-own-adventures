@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import SentenceInput from './SentenceInput'; // Import the SentenceInput component
+import { deleteStory } from '../utils/storyActions'; // Import the deleteStory utility function
 import { isValidSentence } from '../utils/validation'; // Import the validation function
 
 function StoryInteraction({ storyId, onBack }) {
@@ -48,12 +49,22 @@ function StoryInteraction({ storyId, onBack }) {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      await deleteStory(storyId, 'current_user'); // Replace 'current_user' with actual user
+      onBack(); // Navigate back after deletion
+    } catch (error) {
+      console.error('Error deleting story:', error);
+    }
+  };
+
   return (
     <div className="story-interaction-container">
       <h2>Story Interaction</h2>
       <p>{story?.content}</p>
       <SentenceInput value={newContent} onChange={setNewContent} onSubmit={handleUpdate} ref={inputRef} />
       <button onClick={onBack}>Back to Main Menu</button>
+      <button onClick={handleDelete} className="delete-button">Delete Story</button>
     </div>
   );
 }
@@ -63,8 +74,7 @@ export default StoryInteraction;
 /**
  * ACS - StoryInteraction.js
  *
- * This component handles the main interaction loop for a story, including displaying the story content, appending new content, and navigating back to the main menu.
- * Ghost text hints are provided to guide the user.
+ * This component handles the main interaction loop for a story, including displaying the story content, appending new content, deleting the story, and navigating back to the main menu.
  *
  * Props:
  * - storyId: The ID of the story to interact with.
@@ -80,14 +90,15 @@ export default StoryInteraction;
  *
  * Handlers:
  * - handleUpdate: Appends new content to the story and sends a PUT request to update the story.
+ * - handleDelete: Calls the deleteStory utility function and navigates back to the main menu after deletion.
  *
  * Debugging:
- * - Console logs to track the fetched story and method calls.
+ * - Console logs to track the fetched story, update, and delete operations.
  *
  * Rendering:
  * - Renders the story content.
  * - Renders a form to add new content to the story.
- * - Renders a button to navigate back to the main menu.
+ * - Renders buttons to navigate back to the main menu and delete the story.
  *
  * ACS Enrichment Reminder:
  * - Ensure systematic enrichment of ACS during each file update.

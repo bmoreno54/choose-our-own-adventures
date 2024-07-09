@@ -15,5 +15,13 @@
     "mongoose": "^8.4.4",
     "react-modal": "^3.16.1"
   },
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  },
+  "scripts": {
+    "test": "jest"
+  }
+
 }

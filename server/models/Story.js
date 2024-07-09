@@ -10,10 +10,22 @@ const storySchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  contributors: {
+    type: [String], // Array of contributor usernames
+    default: []
+  },
   createdAt: {
     type: Date,
     default: Date.now
   }
+});
+
+// Adding a pre-save hook to ensure the author is added to the contributors list
+storySchema.pre('save', function (next) {
+  if (!this.contributors.includes(this.author)) {
+    this.contributors.push(this.author);
+  }
+  next();
 });
 
 const Story = mongoose.model('Story', storySchema);
@@ -28,13 +40,14 @@ module.exports = Story;
  * Schema:
  * - content: The content of the story (String, required).
  * - author: The author of the story (String, required).
+ * - contributors: An array of contributors (String array, default: []).
  * - createdAt: The date the story was created (Date, default: Date.now).
  *
  * Model:
  * - Story: The Mongoose model for the story schema.
  *
- * Comments:
- * - Detailed comments are provided to explain each part of the schema and model.
+ * Middleware:
+ * - pre-save hook: Ensures the author is added to the contributors list.
  *
  * ACS:
  * - This ACS section provides an overview of the file's functionality and structure,

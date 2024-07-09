@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { deleteStory } from '../utils/storyActions';
 import './ContinueStory.css';
 
 function ContinueStory({ onSelectStory, onBack }) {
@@ -14,6 +15,15 @@ function ContinueStory({ onSelectStory, onBack }) {
       .catch(error => console.error('Error fetching stories:', error));
   }, []);
 
+  const handleDelete = async (storyId) => {
+    try {
+      await deleteStory(storyId, 'current_user'); // Replace 'current_user' with actual user
+      setStories(stories.filter(story => story._id !== storyId));
+    } catch (error) {
+      console.error('Error deleting story:', error);
+    }
+  };
+
   return (
     <div className="continue-story-container">
       <h2>Continue a Story</h2>
@@ -27,6 +37,7 @@ function ContinueStory({ onSelectStory, onBack }) {
             >
               {story.content.split('\n')[0]} {/* Display the first sentence */}
             </button>
+            <button className="delete-button" onClick={() => handleDelete(story._id)}>Delete</button>
           </li>
         ))}
       </ul>
@@ -39,7 +50,7 @@ export default ContinueStory;
 /**
  * ACS - ContinueStory.js
  *
- * This component allows users to continue an existing story by selecting it and adding more content.
+ * This component allows users to continue an existing story by selecting it and adding more content. Users can also delete stories.
  *
  * Props:
  * - onSelectStory: A function to handle the selection of a story for interaction.
@@ -52,13 +63,13 @@ export default ContinueStory;
  * - Fetches the list of stories from the /api/stories endpoint and sets the stories state.
  *
  * Handlers:
- * - onSelectStory: Calls the parent function to handle the selected story for interaction.
+ * - handleDelete: Calls the deleteStory utility function and updates the state to remove the deleted story.
  *
  * Debugging:
- * - Console logs to track the fetched stories and method calls.
+ * - Console logs to track the fetched stories and delete operations.
  *
  * Rendering:
- * - Renders a list of stories with options to continue them.
+ * - Renders a list of stories with options to continue or delete them.
  * - Renders a button to navigate back to the main menu.
  *
  * ACS Enrichment Reminder:
