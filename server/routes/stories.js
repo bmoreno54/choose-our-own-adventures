@@ -1,6 +1,7 @@
 const express = require('express');
-const Story = require('../models/Story');
 const router = express.Router();
+const Story = require('../models/Story');
+const authenticate = require('../middleware/auth');
 
 // Create a new story
 router.post('/', async (req, res) => {
@@ -19,12 +20,33 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Get all stories
+// Fetch stories with optional query parameters
 router.get('/', async (req, res) => {
   try {
-    const stories = await Story.find();
+    let filter = {};
+    console.log('Received query parameters:', req.query); // Debugging line
+
+    if (req.query.contributor) {
+      filter.contributors = req.query.contributor;
+      console.log(`Filtering stories by contributor: ${req.query.contributor}`); // Debugging line
+    } else if (req.query.ids) {
+      filter._id = { $in: req.query.ids.split(',') };
+      console.log(`Filtering stories by IDs: ${req.query.ids}`); // Debugging line
+    }
+
+    if (req.query.excludeContributors) {
+      filter.contributors = filter.contributors || {};
+      filter.contributors.$nin = req.query.excludeContributors.split(',');
+      console.log(`Excluding stories by contributors: ${req.query.excludeContributors}`); // Debugging line
+    }
+
+    console.log('Constructed filter:', filter); // Debugging line
+
+    const stories = await Story.find(filter);
+    console.log('Filtered stories:', stories); // Debugging line
     res.json(stories);
   } catch (error) {
+    console.error('Error fetching stories:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -94,12 +116,6 @@ router.delete('/:id', async (req, res) => {
 
 module.exports = router;
 
-
-
-
-
-
-
 /**
  * ACS - stories.js
  *
@@ -111,13 +127,10 @@ module.exports = router;
  *
  * Routes:
  * - 'POST /': Creates a new story and returns the saved story.
- * - 'GET /': Retrieves all stories from the database.
+ * - 'GET /': Retrieves stories from the database based on query parameters (contributor or story IDs).
  * - 'GET /:id': Retrieves a story by its ID from the database.
  * - 'PUT /:id': Updates a story by its ID with the details provided in the request body.
  * - 'DELETE /:id': Deletes a story by its ID from the database. If the story has multiple contributors, it removes the requesting user's authorship link instead of deleting the story.
- *
- * Middleware:
- * - ensureAuthenticated: Middleware to ensure the user is authenticated before allowing access to certain routes.
  *
  * Debugging:
  * - Check the logs for messages indicating the success or failure of each operation.

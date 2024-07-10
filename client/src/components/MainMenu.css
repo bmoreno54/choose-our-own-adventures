@@ -16,11 +16,21 @@
   padding: 10px;
   font-size: 1em;
   cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
 
 .main-menu button[disabled] {
   background-color: #ccc;
+  color: #777;
   cursor: not-allowed;
+}
+
+.main-menu button:hover:not([disabled]) {
+  background-color: #0056b3;
 }
 
 .tooltip {
@@ -42,6 +52,15 @@
   opacity: 1;
 }
 
+.credits-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.credits-content h2 {
+  margin-bottom: 10px;
+}
+
 /**
  * ACS - MainMenu.css
  *
@@ -52,9 +71,11 @@
  * - .main-menu: Styles the main container of the menu.
  * - .main-menu h2: Styles the main title of the menu.
  * - .main-menu button: Styles the buttons in the menu.
- * - .main-menu button[disabled]: Styles disabled buttons.
+ * - .main-menu button[disabled]: Styles disabled buttons to appear greyed out.
+ * - .main-menu button:hover:not([disabled]): Styles for hover effect on enabled buttons.
  * - .tooltip: Styles the tooltip.
  * - .tooltip.visible: Styles for making the tooltip visible.
+ * - .credits-content: Styles the credits modal content.
  * 
  * File Relationships:
  * - This file is linked to MainMenu.js for component logic.

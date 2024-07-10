@@ -17,12 +17,12 @@
 }
 
 /* Button hover effect */
-.button:hover {
+.button:hover:not([disabled]) {
   background-color: #0056b3;
 }
 
 /* Button active effect */
-.button:active {
+.button:active:not([disabled]) {
   background-color: #004080;
   transform: scale(0.98);
 }
@@ -30,6 +30,7 @@
 /* Button disabled state */
 .button:disabled {
   background-color: #cccccc;
+  color: #777;
   cursor: not-allowed;
 }
 
@@ -40,11 +41,11 @@
   background-color: #007bff;
 }
 
-.button-primary:hover {
+.button-primary:hover:not([disabled]) {
   background-color: #0056b3;
 }
 
-.button-primary:active {
+.button-primary:active:not([disabled]) {
   background-color: #004080;
 }
 
@@ -53,11 +54,11 @@
   background-color: #6c757d;
 }
 
-.button-secondary:hover {
+.button-secondary:hover:not([disabled]) {
   background-color: #565e64;
 }
 
-.button-secondary:active {
+.button-secondary:active:not([disabled]) {
   background-color: #404448;
 }
 
@@ -66,11 +67,11 @@
   background-color: #28a745;
 }
 
-.button-success:hover {
+.button-success:hover:not([disabled]) {
   background-color: #218838;
 }
 
-.button-success:active {
+.button-success:active:not([disabled]) {
   background-color: #1e7e34;
 }
 
@@ -79,11 +80,11 @@
   background-color: #dc3545;
 }
 
-.button-danger:hover {
+.button-danger:hover:not([disabled]) {
   background-color: #c82333;
 }
 
-.button-danger:active {
+.button-danger:active:not([disabled]) {
   background-color: #bd2130;
 }
 
@@ -93,11 +94,11 @@
   color: #212529;
 }
 
-.button-warning:hover {
+.button-warning:hover:not([disabled]) {
   background-color: #e0a800;
 }
 
-.button-warning:active {
+.button-warning:active:not([disabled]) {
   background-color: #c69500;
 }
 
@@ -106,11 +107,11 @@
   background-color: #17a2b8;
 }
 
-.button-info:hover {
+.button-info:hover:not([disabled]) {
   background-color: #138496;
 }
 
-.button-info:active {
+.button-info:active:not([disabled]) {
   background-color: #117a8b;
 }
 
@@ -120,11 +121,11 @@
   color: #212529;
 }
 
-.button-light:hover {
+.button-light:hover:not([disabled]) {
   background-color: #e2e6ea;
 }
 
-.button-light:active {
+.button-light:active:not([disabled]) {
   background-color: #dae0e5;
 }
 
@@ -133,10 +134,10 @@
   background-color: #343a40;
 }
 
-.button-dark:hover {
+.button-dark:hover:not([disabled]) {
   background-color: #23272b;
 }
 
-.button-dark:active {
+.button-dark:active:not([disabled]) {
   background-color: #1d2124;
 }

@@ -1,15 +1,22 @@
 import React from 'react';
 import './Button.css';
 
-const Button = ({ label, onClick, className = '' }) => {
+const Button = ({ label, onClick, onMouseEnter, onMouseLeave, className = '', disabled }) => {
   return (
-    <button className={`custom-button ${className}`} onClick={onClick}>
+    <button
+      className={`custom-button ${className}`}
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      disabled={disabled}
+    >
       {label}
     </button>
   );
 };
 
 export default Button;
+
 
 /**
  * ACS - Button.js
@@ -20,6 +27,7 @@ export default Button;
  * - label: The text to display on the button.
  * - onClick: The function to call when the button is clicked.
  * - className: Optional additional class names for styling.
+ * - disabled: Boolean to indicate if the button is disabled.
  *
  * Rendering:
  * - Renders a button with the provided label and click handler.

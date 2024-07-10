@@ -16,9 +16,9 @@
 }
 
 .story-item {
-  margin-bottom: 15px; /* Add space between story items */
+  margin-bottom: 15px;
   display: flex;
-  justify-content: flex-start; /* Left-align the story link within the item */
+  align-items: center;
 }
 
 .story-link {
@@ -29,9 +29,9 @@
   text-align: left;
   text-decoration: none;
   cursor: pointer;
-  display: inline-block; /* Change to inline-block for proper alignment */
-  width: auto; /* Adjust width as needed */
-  max-width: 600px; /* Set a max width */
+  display: inline-block;
+  width: auto;
+  max-width: 600px;
   border-radius: 4px;
   transition: background-color 0.3s ease;
 }
@@ -39,4 +39,25 @@
 .story-link:hover {
   background-color: #007bff;
   color: white;
+}
+
+.story-author {
+  margin-left: 10px;
+  font-style: italic;
+  color: #555;
+}
+
+.delete-button {
+  margin-left: 10px;
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: darkred;
 }

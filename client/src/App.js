@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-//import { AgentContext } from './contexts/AgentContext'; // Ensure correct import
+import React, { useEffect, useState, useContext } from 'react';
+import { AgentContext } from './contexts/AgentContext';
 import BrowseStories from './components/BrowseStories';
 import ContinueStory from './components/ContinueStory';
 import StoryInteraction from './components/StoryInteraction';
@@ -7,6 +7,7 @@ import MainMenu from './components/MainMenu';
 import './App.css';
 
 function App() {
+  const { agent } = useContext(AgentContext);
   const [message, setMessage] = useState('');
   const [currentAction, setCurrentAction] = useState(null);
   const [storyId, setStoryId] = useState(null);
@@ -26,13 +27,15 @@ function App() {
   };
 
   const createNewStory = async () => {
+    const author = agent ? agent.username : 'anonymous';
     try {
       const response = await fetch('/api/stories', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': agent ? `Bearer ${localStorage.getItem('token')}` : ''
         },
-        body: JSON.stringify({ content: ' ', author: 'unnamed' }) // Create an empty story
+        body: JSON.stringify({ content: ' ', author }) // Create an empty story
       });
       const data = await response.json();
       console.log('New story created:', data);
@@ -85,6 +88,7 @@ export default App;
  * Imports:
  * - React: The core library for building React components.
  * - useEffect, useState: React hooks for managing side effects and state.
+ * - AgentContext: Context for managing agent state and authentication.
  * - BrowseStories: The component for browsing existing stories.
  * - ContinueStory: The component for continuing an existing story.
  * - StoryInteraction: The unified component for interacting with a story.
@@ -102,7 +106,7 @@ export default App;
  * Handlers:
  * - handleActionSelected: Sets the current action based on the selected menu option.
  * - handleStoryInteraction: Sets the current action to 'interact' with the provided story ID.
- * - createNewStory: Creates a new story and sets the storyId state.
+ * - createNewStory: Creates a new story and sets the storyId state, using the authenticated agent's username or 'anonymous'.
  *
  * Debugging:
  * - Console logs to track the component state and method calls.
