@@ -1,17 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const storySchema = new mongoose.Schema({
-  content: {
-    type: String,
-    required: true
-  },
-  author: {
-    type: String,
+const storySchema = new Schema({
+  firstSentence: {
+    type: Schema.Types.ObjectId,
+    ref: 'Sentence',
     required: true
   },
   contributors: {
-    type: [String], // Array of contributor usernames
+    type: [String],
     default: []
   },
   createdAt: {
@@ -20,10 +17,11 @@ const storySchema = new mongoose.Schema({
   }
 });
 
-// Adding a pre-save hook to ensure the author is added to the contributors list
-storySchema.pre('save', function (next) {
-  if (!this.contributors.includes(this.author)) {
-    this.contributors.push(this.author);
+// Adding a pre-save hook to ensure the firstSentence author is added to the contributors list
+storySchema.pre('save', async function (next) {
+  const firstSentence = await this.model('Sentence').findById(this.firstSentence);
+  if (firstSentence && !this.contributors.includes(firstSentence.author)) {
+    this.contributors.push(firstSentence.author);
   }
   next();
 });
@@ -38,16 +36,12 @@ module.exports = Story;
  * This file defines the Story model for the MongoDB database using Mongoose.
  *
  * Schema:
- * - content: The content of the story (String, required).
- * - author: The author of the story (String, required).
- * - contributors: An array of contributors (String array, default: []).
+ * - firstSentence: The ID of the first sentence in the story (ObjectId, ref: 'Sentence', required).
+ * - contributors: A list of usernames of contributors to the story (String array, default: []).
  * - createdAt: The date the story was created (Date, default: Date.now).
  *
- * Model:
- * - Story: The Mongoose model for the story schema.
- *
  * Middleware:
- * - pre-save hook: Ensures the author is added to the contributors list.
+ * - pre-save hook: Ensures the firstSentence author is added to the contributors list.
  *
  * ACS:
  * - This ACS section provides an overview of the file's functionality and structure,

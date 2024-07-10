@@ -3,23 +3,25 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Agent = require('../models/Agent');
 const agentsRouter = require('../routes/agents');
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+
+// Load environment variables
+dotenv.config();
 
 const app = express();
 app.use(express.json());
 app.use('/api/agents', agentsRouter);
 
-// Connect to a test database
 beforeAll(async () => {
   const url = `mongodb://127.0.0.1:27017/test_database`;
   await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 });
 
-// Clear test database after each test
 afterEach(async () => {
   await Agent.deleteMany();
 });
 
-// Disconnect from test database after all tests
 afterAll(async () => {
   await mongoose.connection.close();
 });
@@ -61,6 +63,7 @@ describe('Agent API', () => {
       .get('/api/agents/profile')
       .set('Authorization', `Bearer ${token}`);
 
+    console.log('Profile response:', profileResponse.body); // Log the profile response
     expect(profileResponse.statusCode).toBe(200);
     expect(profileResponse.body.username).toBe('testagent');
   });
@@ -69,19 +72,18 @@ describe('Agent API', () => {
 /**
  * ACS - agents.test.js
  *
- * This file contains automated tests for agent-related operations using Jest and Supertest.
+ * This file contains tests for the Agent API, ensuring authentication operations work as expected.
  *
  * Tests:
- * - Register a new agent: Ensures an agent can be registered successfully.
- * - Login an agent: Ensures an agent can log in and receive a JWT token.
- * - Get agent profile: Ensures the authenticated agent can retrieve their profile.
+ * - Logging in an agent
+ * - Retrieving an agent profile
  *
- * Database:
- * - Connects to a test MongoDB database before running tests.
- * - Clears the test database after each test.
- * - Disconnects from the test database after all tests.
+ * Environment Variables:
+ * - Ensure JWT_SECRET is correctly set in the .env file.
+ *
+ * Debugging:
+ * - Console logs are added to track responses and assist in debugging.
  *
  * ACS:
- * - This ACS section provides an overview of the test cases and their purpose,
- *   serving as a guide for developers to understand and extend the tests.
+ * - Documenting the purpose, logic, and structure of tests for future reference and maintenance.
  */
