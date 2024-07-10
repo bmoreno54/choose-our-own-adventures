@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Modal.css';
 
 const Modal = ({ isOpen, onClose, children }) => {
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onClose]);
+
   if (!isOpen) return null;
 
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>
-          &times;
-        </button>
         {children}
       </div>
     </div>
@@ -29,7 +39,7 @@ export default Modal;
  * - children: Content to be displayed inside the modal.
  *
  * Handlers:
- * - onClose: Closes the modal when overlay or close button is clicked.
+ * - onClose: Closes the modal when overlay is clicked or ESC key is pressed.
  *
  * Rendering:
  * - Renders the modal overlay and content if isOpen is true.

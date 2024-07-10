@@ -7,7 +7,7 @@ import './SentenceInput.css';
 const SentenceInput = forwardRef(({ value, onChange, onSubmit }, ref) => {
   const [input, setInput] = useState(value);
   const inputRef = useRef(null);
-  const { settings } = useContext(SettingsContext);
+  const { settings } = useContext(SettingsContext); // Correctly use SettingsContext
 
   useEffect(() => {
     setInput(value);
@@ -78,8 +78,6 @@ const SentenceInput = forwardRef(({ value, onChange, onSubmit }, ref) => {
 });
 
 export default SentenceInput;
-
-
 
 /**
  * ACS - SentenceInput.js

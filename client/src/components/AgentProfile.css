@@ -1,0 +1,17 @@
+.agent-profile {
+  padding: 20px;
+  text-align: center;
+}
+
+.profile-detail {
+  margin-bottom: 15px;
+}
+
+.profile-detail label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.profile-detail span {
+  font-style: italic;
+}

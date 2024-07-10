@@ -1,0 +1,142 @@
+/* Button.css */
+
+/* Base button style */
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+/* Button hover effect */
+.button:hover {
+  background-color: #0056b3;
+}
+
+/* Button active effect */
+.button:active {
+  background-color: #004080;
+  transform: scale(0.98);
+}
+
+/* Button disabled state */
+.button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Additional styles for different button types */
+
+/* Primary button */
+.button-primary {
+  background-color: #007bff;
+}
+
+.button-primary:hover {
+  background-color: #0056b3;
+}
+
+.button-primary:active {
+  background-color: #004080;
+}
+
+/* Secondary button */
+.button-secondary {
+  background-color: #6c757d;
+}
+
+.button-secondary:hover {
+  background-color: #565e64;
+}
+
+.button-secondary:active {
+  background-color: #404448;
+}
+
+/* Success button */
+.button-success {
+  background-color: #28a745;
+}
+
+.button-success:hover {
+  background-color: #218838;
+}
+
+.button-success:active {
+  background-color: #1e7e34;
+}
+
+/* Danger button */
+.button-danger {
+  background-color: #dc3545;
+}
+
+.button-danger:hover {
+  background-color: #c82333;
+}
+
+.button-danger:active {
+  background-color: #bd2130;
+}
+
+/* Warning button */
+.button-warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.button-warning:hover {
+  background-color: #e0a800;
+}
+
+.button-warning:active {
+  background-color: #c69500;
+}
+
+/* Info button */
+.button-info {
+  background-color: #17a2b8;
+}
+
+.button-info:hover {
+  background-color: #138496;
+}
+
+.button-info:active {
+  background-color: #117a8b;
+}
+
+/* Light button */
+.button-light {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+.button-light:hover {
+  background-color: #e2e6ea;
+}
+
+.button-light:active {
+  background-color: #dae0e5;
+}
+
+/* Dark button */
+.button-dark {
+  background-color: #343a40;
+}
+
+.button-dark:hover {
+  background-color: #23272b;
+}
+
+.button-dark:active {
+  background-color: #1d2124;
+}
